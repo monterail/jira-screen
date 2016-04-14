@@ -10,7 +10,9 @@ casper.options.viewportSize = {width: 1920, height: 1600};
 username = casper.cli.get(0)
 password = casper.cli.get(1)
 
-casper.start('https://monterail.atlassian.net/secure/RapidBoard.jspa?rapidView=134&view=reporting&chart=controlChart&days=14', function() {
+casper.start('https://monterail.atlassian.net/secure/RapidBoard.jspa?rapidView=134&view=reporting&chart=controlChart&days=14');
+
+casper.waitForSelector("form#form-crowd-login", function() {
     this.fillSelectors('form#form-crowd-login', {
         '#username': username,
         '#password': password
@@ -21,8 +23,8 @@ casper.thenEvaluate(function() {
     document.querySelector('form#form-crowd-login').submit();
 });
 
-casper.wait(3000, function() {
-     casper.captureSelector('control-chart.png', "#ghx-chart-group");
+casper.waitForSelector("#ghx-chart-group", function() {
+    casper.captureSelector('control-chart.png', "#ghx-chart-group");
 });
 
 casper.run(function() {
